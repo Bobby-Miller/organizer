@@ -40,21 +40,11 @@ class ControllerType(models.Model):
 
 class Controller(models.Model):
     name = models.CharField(max_length=255)
-    controller_type = models.ForeignKey(ControllerType, on_delete=models.SET_NULL)
-    primary_workcell = models.ForeignKey(Workcell, on_delete=models.SET_NULL)
+    controller_type = models.ForeignKey(ControllerType, on_delete=models.SET_NULL, null=True)
+    primary_workcell = models.ForeignKey(Workcell, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return self.name
-
-
-class Rack(models.Model):
-    controller = models.ForeignKey(Controller, on_delete=models.CASCADE)
-    rack_count = models.IntegerField()
-    point_type = models.ForeignKey(PointType, on_delete=models.SET_NULL)
-    rack_location = models.IntegerField()
-
-    def __str__(self):
-        return '%s - %s' % (self.controller, self.rack_location)
 
 
 class PointType(models.Model):
@@ -64,10 +54,22 @@ class PointType(models.Model):
         return self.point_type
 
 
+class Rack(models.Model):
+    controller = models.ForeignKey(Controller, on_delete=models.CASCADE)
+    rack_count = models.IntegerField()
+    point_type = models.ForeignKey(PointType, on_delete=models.SET_NULL, null=True)
+    rack_location = models.IntegerField()
+
+    def __str__(self):
+        return '%s - %s' % (self.controller, self.rack_location)
+
+
 class Point(models.Model):
     controller_point_name = models.CharField(max_length=32)
-    tag_name = models.CharField(max_lenth=255)
+    tag_name = models.CharField(max_length=255)
     rack = models.ForeignKey(Rack, on_delete=models.CASCADE)
-    equipment = models.ForeignKey(Equipment, on_delete=models.SET_NULL)
-    point_type = models.ForeignKey(PointType, on_delete=models.SET_NULL)
+    equipment = models.ForeignKey(Equipment, on_delete=models.SET_NULL, null=True)
+    point_type = models.ForeignKey(PointType, on_delete=models.SET_NULL, null=True)
 
+    def __str__(self):
+        return '%s - %s' % (self.equipment, self.tag_name)
