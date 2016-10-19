@@ -22,6 +22,15 @@ class WorkcellAdmin(admin.ModelAdmin):
     inlines = [EquipmentInLine]
 
 
+class CommunicationInLine(admin.StackedInline):
+    model = ControllerType.communication.through
+    extra = 1
+
+
+class ControllerTypeAdmin(admin.ModelAdmin):
+    inlines = [CommunicationInLine]
+
+
 class RackInLine(admin.StackedInline):
     model = Rack
     extra = 8
@@ -32,12 +41,18 @@ class ControllerAdmin(admin.ModelAdmin):
 
 
 class PointInLine(admin.StackedInline):
-    model =
+    model = Point
+    extra = 8
+
+
+class RackAdmin(admin.ModelAdmin):
+    inlines = [PointInLine]
 
 admin.site.register(Department, DepartmentAdmin)
 admin.site.register(Workcell, WorkcellAdmin)
 admin.site.register(Equipment)
 admin.site.register(CommunicationType)
-admin.site.register(ControllerType)
-admin.site.register(PointType)
+admin.site.register(ControllerType, ControllerTypeAdmin)
 admin.site.register(Controller, ControllerAdmin)
+admin.site.register(Rack, RackAdmin)
+admin.site.register(PointType)
