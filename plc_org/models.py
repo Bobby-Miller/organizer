@@ -13,7 +13,7 @@ class Workcell(models.Model):
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.workcell
+        return '%s - %s' % (self.department, self.workcell)
 
 
 class Equipment(models.Model):
