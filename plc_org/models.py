@@ -17,10 +17,13 @@ class Workcell(models.Model):
 
 
 class Equipment(models.Model):
-    equipment_id = models.CharField(max_length=32, unique=True, primary_key=True)
+    equipment_description = models.CharField(max_length=32, unique=True, primary_key=True)
     equip_num = models.IntegerField()
-    equipment_description = models.CharField(max_length=255)
+    equipment_id = models.CharField(max_length=255)
     workcell = models.ManyToManyField(Workcell)
+
+    def __str__(self):
+        return
 
 
 class CommunicationType(models.Model):
@@ -42,6 +45,7 @@ class Controller(models.Model):
     name = models.CharField(max_length=255)
     controller_type = models.ForeignKey(ControllerType, on_delete=models.SET_NULL, null=True)
     primary_workcell = models.ForeignKey(Workcell, on_delete=models.SET_NULL, null=True)
+    ip_address = models.CharField(max_length=16)
 
     def __str__(self):
         return self.name
