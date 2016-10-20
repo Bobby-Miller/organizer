@@ -17,13 +17,16 @@ class Workcell(models.Model):
 
 
 class Equipment(models.Model):
-    equipment_description = models.CharField(max_length=32, unique=True, primary_key=True)
+    equipment_id = models.CharField(max_length=32, unique=True, primary_key=True)
     equip_num = models.IntegerField()
-    equipment_id = models.CharField(max_length=255)
+    equipment_description = models.CharField(max_length=255)
     workcell = models.ManyToManyField(Workcell)
 
+    class Meta:
+        verbose_name_plural = "Equipment"
+
     def __str__(self):
-        return
+        return '%s - %s' % (self.equipment_id, self.equipment_description)
 
 
 class CommunicationType(models.Model):
